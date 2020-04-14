@@ -7,7 +7,7 @@ export declare class YoutubePlayer extends YoutubePlayerBase {
     private _fragment;
     private _layoutId;
     private _isInit;
-    createNativeView(): android.widget.LinearLayout;
+    createNativeView(): globalAndroid.widget.LinearLayout;
     disposeNativeView(): void;
     private initializePlayer();
     play(): void;
