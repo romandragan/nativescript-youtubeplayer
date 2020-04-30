@@ -1,6 +1,6 @@
 {
     "name": "nativescript-youtubeplayer-inline",
-    "version": "33.0.1",
+    "version": "43.0.1",
     "description": "YoutubePlayer for Nativescript with inline playing support",
     "main": "youtubeplayer",
     "typings": "index.d.ts",
