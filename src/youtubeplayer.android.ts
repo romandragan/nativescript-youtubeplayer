@@ -15,9 +15,7 @@ import {
     VIDEO_LOADED_EVENT,
     YoutubePlayerBase
 } from './youtubeplayer.common';
-import { fromObject } from 'tns-core-modules/data/observable';
-import { Property } from 'tns-core-modules/ui/core/view';
-import * as app from 'tns-core-modules/application';
+import { fromObject, Property, Application } from '@nativescript/core';
 
 declare var com;
 const FRAGMENT_TAG = 'TNSYoutubeFragment';
@@ -39,7 +37,7 @@ export class YoutubePlayer extends YoutubePlayerBase {
         const nativeView = new android.widget.LinearLayout(this._context);
         nativeView.setId(this._layoutId);
         // this uses a private API, but it's the best (or rather: easiest) way I could find to support showing the fragment in modals
-        const manager: android.support.v4.app.FragmentManager = (<any>this)._getFragmentManager();
+        const manager: android.app.FragmentManager = (<any>this)._getFragmentManager();
         const fragment = manager.findFragmentByTag(FRAGMENT_TAG);
         if (!fragment) {
             this._fragment = com.google.android.youtube.player.YouTubePlayerSupportFragment.newInstance();
@@ -235,9 +233,9 @@ export class YoutubePlayer extends YoutubePlayerBase {
             this.player = null;
         }
         if (this._fragment) {
-            const activity = app.android.foregroundActivity;
+            const activity = Application.android.foregroundActivity;
             if (activity && !activity.isFinishing()) {
-                (<android.support.v4.app.FragmentManager>(<any>this)._getFragmentManager())
+                (<android.app.FragmentManager>(<any>this)._getFragmentManager())
                     .beginTransaction()
                     .remove(this._fragment)
                     .commit();

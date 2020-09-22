@@ -9,12 +9,12 @@ export declare class YoutubePlayer extends YoutubePlayerBase {
     private _isInit;
     createNativeView(): globalAndroid.widget.LinearLayout;
     disposeNativeView(): void;
-    private initializePlayer();
+    private initializePlayer;
     play(): void;
     stop(): void;
     destroy(): void;
     pause(): void;
     isPlaying(): boolean;
     toggleFullscreen(): void;
-    readonly isFullScreen: boolean;
+    get isFullScreen(): boolean;
 }

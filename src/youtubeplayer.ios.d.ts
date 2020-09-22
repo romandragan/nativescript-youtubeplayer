@@ -18,7 +18,7 @@ export declare class YoutubePlayer extends YoutubePlayerBase {
     destroy(): void;
     isPlaying(): boolean;
     toggleFullscreen(): void;
-    readonly isFullScreen: boolean;
+    get isFullScreen(): boolean;
 }
 export declare class YTPlayerViewDelegateImpl extends NSObject implements YTPlayerViewDelegate {
     static ObjCProtocols: {

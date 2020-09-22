@@ -10,10 +10,7 @@ import {
     VIDEO_LOADED_EVENT,
     YoutubePlayerBase
 } from './youtubeplayer.common';
-import { fromObject } from 'tns-core-modules/data/observable';
-import * as utils from 'tns-core-modules/utils/utils';
-import * as application from 'tns-core-modules/application';
-import { layout } from 'tns-core-modules/ui/core/view';
+import { fromObject, Utils, Application } from '@nativescript/core';
 
 export class YoutubePlayer extends YoutubePlayerBase {
     specHeight: number;
@@ -68,8 +65,8 @@ export class YoutubePlayer extends YoutubePlayerBase {
     public onMeasure(widthMeasureSpec: number, heightMeasureSpec: number) {
         const nativeView = this.nativeView;
         if (nativeView) {
-            const width = layout.getMeasureSpecSize(widthMeasureSpec);
-            const height = layout.getMeasureSpecSize(heightMeasureSpec);
+            const width = Utils.layout.getMeasureSpecSize(widthMeasureSpec);
+            const height = Utils.layout.getMeasureSpecSize(heightMeasureSpec);
             this.setMeasuredDimension(width, height);
         }
     }
@@ -87,11 +84,8 @@ export class YoutubePlayer extends YoutubePlayerBase {
     }
 
     public destroy(): void {
-        const center = utils.ios.getter(
-            NSNotificationCenter,
-            NSNotificationCenter.defaultCenter
-        );
-        application.ios.removeNotificationObserver(
+        const center = NSNotificationCenter.defaultCenter
+        Application.ios.removeNotificationObserver(
             this._observer,
             UIWindowDidResignKeyNotification
         );
@@ -118,6 +112,7 @@ export class YoutubePlayer extends YoutubePlayerBase {
     }
 }
 
+@NativeClass()
 export class YTPlayerViewDelegateImpl extends NSObject
     implements YTPlayerViewDelegate {
     public static ObjCProtocols = [YTPlayerViewDelegate];
@@ -147,11 +142,11 @@ export class YTPlayerViewDelegateImpl extends NSObject
 
     playerViewDidBecomeReady(playerView: YTPlayerView) {
         const owner = this._owner.get();
-        owner._observer = application.ios.addNotificationObserver(
+        owner._observer = Application.ios.addNotificationObserver(
             UIWindowDidResignKeyNotification,
             notification => {
                 if (
-                    notification.object === application.ios.window &&
+                    notification.object === Application.ios.window &&
                     !owner._fullScreen
                 ) {
                     owner._fullScreen = true;
@@ -162,7 +157,7 @@ export class YTPlayerViewDelegateImpl extends NSObject
                         })
                     });
                 } else if (
-                    notification.object !== application.ios.window &&
+                    notification.object !== Application.ios.window &&
                     owner._fullScreen
                 ) {
                     owner._fullScreen = false;
